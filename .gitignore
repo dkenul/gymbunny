@@ -19,4 +19,5 @@ bin
 .DS_Store
 activator-sbt-*-shim.sbt
 node_modules
-_rmv
+/_rmv
+/public
