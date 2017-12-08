@@ -1,3 +1,5 @@
+@primary: #d44848;
+
 
 * {
   padding: 0;
@@ -33,7 +35,7 @@ a {
 nav {
   padding: 0 30px;
   line-height: 50px;
-  background: #d44848;
+  background: @primary;
   color: #fff;
 }
 
@@ -42,8 +44,20 @@ section {
 }
 
 h2 {
-  color: #d44848;
+  color: @primary;
   margin: 10px 0;
+}
+
+.btn {
+  color: #fff;
+  background: @primary;
+  cursor: pointer;
+  border-radius: 3px;
+  padding: 6px 12px;
+  display: inline-block;
+  &:hover {
+    background: #af3434;
+  }
 }
 
 .user-list {

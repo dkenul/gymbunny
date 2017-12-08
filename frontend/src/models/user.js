@@ -9,18 +9,28 @@ const updateUser = user => {
   )
 }
 
+const BASE_URL = '/v1/users'
+
 const User = {
+  post: data =>
+    m.request({
+      method: 'POST',
+      url: BASE_URL,
+      data,
+    })
+    .then(updateUser),
+
   fetch: id =>
     m.request({
       method: 'GET',
-      url: `/v1/users/${id}`,
+      url: `${BASE_URL}/${id}`,
     })
     .then(updateUser),
 
   fetchAll: () =>
     m.request({
       method: 'GET',
-      url: '/v1/users',
+      url: BASE_URL,
     })
     .then(r => r.users.forEach(updateUser))
 }

@@ -26,6 +26,8 @@
 # ----- JSON API -----
 
 GET /v1/users                       controllers.UserController.getAll()
+
++ nocsrf
 POST /v1/users                      controllers.UserController.post()
 
 GET /v1/users/:id                   controllers.UserController.get(id:Long)
