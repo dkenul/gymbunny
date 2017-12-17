@@ -1,7 +1,7 @@
 package models
 
 import java.util.Date
-import javax.inject.Inject
+import javax.inject._
 
 import anorm.SqlParser._
 import anorm._
@@ -26,11 +26,7 @@ case class User (
   )
 }
 
-@javax.inject.Singleton
-class UserService @Inject()(dbapi: DBApi)(implicit ec: DatabaseExecutionContext) {
-
-  private val db = dbapi.database("default")
-
+object User {
   val parser = for {
     id <- get[Option[Long]]("user.id")
     username <- get[String]("user.username")
@@ -38,16 +34,22 @@ class UserService @Inject()(dbapi: DBApi)(implicit ec: DatabaseExecutionContext)
     lastName <- get[String]("user.last_name")
     email <- get[String]("user.email")
   } yield User(id,username,firstName,lastName,email)
+}
 
+@Singleton
+class UserService @Inject()(dbapi: DBApi)(implicit ec: DatabaseExecutionContext) {
+
+  private val db = dbapi.database("default")
+
+  val parser = User.parser
 
   def list:Future[List[User]] = Future {
     db.withConnection { implicit c =>
-      SQL(
-        """
-          select *
-          from user
-        """
-      ).as(parser *)
+      SQL"""
+        select *
+        from user
+      """
+      .as(parser *)
     }
   }(ec)
 

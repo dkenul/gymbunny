@@ -32,6 +32,10 @@ POST /v1/users                      controllers.UserController.post()
 
 GET /v1/users/:id                   controllers.UserController.get(id:Long)
 
+GET /v1/users/:id/workouts          controllers.WorkoutController.getUserWorkouts(id:Long)
+
+GET /v1/workouts/:id                controllers.WorkoutController.get(id:Long)
+
 
 # ----- PUBLIC -----
 

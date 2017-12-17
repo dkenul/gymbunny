@@ -1,13 +1,13 @@
 import m from 'mithril'
 
-import stateless from 'helpers/stateless-view'
+import { stateless } from 'helpers/view'
 import Header from 'views/header'
 import UserList from 'views/user-list'
 import UserDetail from 'views/user-detail'
 
 import 'less/app.less'
 
-const RouteWrapper = View => stateless(({attrs}) =>
+const RouteWrapper = View => stateless(attrs =>
   <div>
     <Header />
     <section>

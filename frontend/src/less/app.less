@@ -66,3 +66,46 @@ h2 {
     font-size: 1.2em;
   }
 }
+
+.modal {
+  opacity: 0;
+  visibility: hidden;
+  position: fixed;
+  top: 100px;
+  left: 0;
+  right: 0;
+  max-width: 600px;
+  margin: 0 auto;
+  background: #efefef;
+  outline: 9999px solid rgba(0, 0, 0, 0.5);
+  z-index: 300;
+  max-height: 700px;
+  overflow-y: hidden;
+  border-radius: 5px;
+  transition: visibility .25s linear, opacity .25s linear;
+
+  &.is-open {
+    top: 100px;
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .modal-header {
+    text-align: center;
+    font-size: 2em;
+    line-height: 75px;
+    border-bottom: 1px solid #d6d6d6;
+  }
+
+  .modal-content {
+    padding: 20px;
+  }
+
+  .modal-footer {
+    border-top: 1px solid #d6d6d6;
+    padding: 15px 5px;
+    .btn {
+      margin-right: 15px;
+    }
+  }
+}

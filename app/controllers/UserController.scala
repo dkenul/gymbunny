@@ -30,7 +30,7 @@ extends MessagesAbstractController(cc) {
 
   def getAll = Action.async { implicit request =>
     userService.list.map { users =>
-      Ok(Json.obj("users" -> users.map(_.toJson)))
+      Ok(Json.toJson(users.map(_.toJson)))
     }
   }
 
@@ -38,7 +38,7 @@ extends MessagesAbstractController(cc) {
     userService.read(id).map { maybeUser =>
       maybeUser.map { user =>
         Ok(user.toJson)
-      } getOrElse Status(404)("This User does not exist")
+      } getOrElse BadRequest(Because doesNotExist "user")
     }
   }
 
@@ -52,22 +52,11 @@ extends MessagesAbstractController(cc) {
 
   def post = Action.async { implicit request =>
     request.body.asJson.map { json =>
-        // json.validate(postValidate) match {
-        //   case s: JsSuccess[User] => Ok(userService.insert(s.get).toJson)
-        //   case e: JsError => Future { Status(404)(JsError.toJson(e)) }
-        // }
-
-        json.validate(postValidate).map { user =>
-          userService.insert(user).map { user =>
-            Ok(user.toJson)
-          }
-        } getOrElse Future { Ok(Json.obj("wut" -> 1)) }
-
-
-      // match {
-      //   case s: JsSuccess[User] => Ok(Json.obj("ok" -> 1))
-      //   case e: JsError => Status(404)(JsError.toJson(e))
-      // }
-    } getOrElse Future { Ok(Json.obj("wut" -> 1)) }
+      json.validate(postValidate).map { user =>
+        userService.insert(user).map { user =>
+          Ok(user.toJson)
+        }
+      } getOrElse Future { BadRequest(Because invalidPostJson "user") }
+    } getOrElse Future { BadRequest(Because requestMalformed) }
   }
 }

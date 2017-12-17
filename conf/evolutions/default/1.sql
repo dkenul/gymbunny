@@ -6,20 +6,20 @@ set ignorecase true;
 
 create table user (
   id bigint primary key auto_increment,
-  username varchar(255) not null,
-  email varchar(255) not null,
+  username varchar(255) unique not null,
+  email varchar(255) unique not null,
   first_name varchar(255) not null,
   last_name varchar(255) not null,
 );
 
 create table body_part (
   id bigint primary key auto_increment,
-  name varchar(255) not null,
+  name varchar(255) unique not null,
 );
 
 create table exercise (
   id bigint primary key auto_increment,
-  name varchar(255) not null,
+  name varchar(255) unique not null,
 );
 
 create table exercise_body_part (
@@ -38,7 +38,7 @@ create table workout (
   foreign key (user_id) references user (id)
 );
 
-create table exercise_set (
+create table workout_exercise (
   id bigint primary key auto_increment,
   workout_id bigint not null,
   exercise_id bigint not null,
@@ -46,33 +46,35 @@ create table exercise_set (
   foreign key (exercise_id) references exercise (id)
 );
 
-create table set_rep (
+create table workout_exercise_set (
   id bigint primary key auto_increment,
-  exercise_set_id bigint not null,
-  foreign key (exercise_set_id) references exercise_set (id)
+  workout_exercise_id bigint not null,
+  weight decimal not null,
+  reps int not null,
+  foreign key (workout_exercise_id) references workout_exercise (id)
 );
 
-create table company (
-  id                        bigint not null,
-  name                      varchar(255) not null,
-  constraint pk_company primary key (id))
-;
+-- create table company (
+--   id                        bigint not null,
+--   name                      varchar(255) not null,
+--   constraint pk_company primary key (id))
+-- ;
 
-create table computer (
-  id                        bigint not null,
-  name                      varchar(255) not null,
-  introduced                timestamp,
-  discontinued              timestamp,
-  company_id                bigint,
-  constraint pk_computer primary key (id))
-;
-
-create sequence company_seq start with 1000;
-
-create sequence computer_seq start with 1000;
-
-alter table computer add constraint fk_computer_company_1 foreign key (company_id) references company (id) on delete restrict on update restrict;
-create index ix_computer_company_1 on computer (company_id);
+-- create table computer (
+--   id                        bigint not null,
+--   name                      varchar(255) not null,
+--   introduced                timestamp,
+--   discontinued              timestamp,
+--   company_id                bigint,
+--   constraint pk_computer primary key (id))
+-- ;
+--
+-- create sequence company_seq start with 1000;
+--
+-- create sequence computer_seq start with 1000;
+--
+-- alter table computer add constraint fk_computer_company_1 foreign key (company_id) references company (id) on delete restrict on update restrict;
+-- create index ix_computer_company_1 on computer (company_id);
 
 
 # --- !Downs
@@ -84,15 +86,15 @@ drop table if exists body_part;
 drop table if exists exercise;
 drop table if exists exercise_body_part;
 drop table if exists workout;
-drop table if exists exercise_set;
-drop table if exists set_rep;
+drop table if exists workout_exercise;
+drop table if exists workout_exercise_set;
 
-drop table if exists company;
-
-drop table if exists computer;
+-- drop table if exists company;
+--
+-- drop table if exists computer;
 
 SET REFERENTIAL_INTEGRITY TRUE;
-
-drop sequence if exists company_seq;
-
-drop sequence if exists computer_seq;
+--
+-- drop sequence if exists company_seq;
+--
+-- drop sequence if exists computer_seq;

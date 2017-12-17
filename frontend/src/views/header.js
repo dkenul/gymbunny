@@ -1,5 +1,5 @@
 import m from 'mithril'
-import stateless from 'helpers/stateless-view'
+import { stateless } from 'helpers/view'
 
 export default stateless(() =>
   <nav className="clearfix">
