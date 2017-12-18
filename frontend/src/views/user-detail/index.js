@@ -14,11 +14,18 @@ export default {
   },
   view: vnode => {
     const user = Store.users[getUserId(vnode)]
-    const workouts = Object.values(Store.workouts).filter(workout => workout.userId === user.id)
+    const workouts = user
+      ? Object
+        .values(Store.workouts)
+        .sort((a, b) => a.onDate - b.onDate)
+        .filter(workout => workout.userId === user.id)
+      : []
 
     return <Root
       user={user}
       workouts={workouts}
+      modalHelpers={Store.modalHelpers}
+      formHelpers={Store.formHelpers}
     />
   },
 }

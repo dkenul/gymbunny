@@ -33,14 +33,22 @@ insert into workout_exercise (workout_id, exercise_id) values (2,2);
 insert into workout_exercise_set(workout_exercise_id, weight, reps) values (3, 120, 9);
 insert into workout_exercise_set(workout_exercise_id, weight, reps) values (3, 130, 9);
 insert into workout_exercise_set(workout_exercise_id, weight, reps) values (3, 120, 9);
-insert into workout_exercise (workout_id, exercise_id) values (1,1);
+insert into workout_exercise (workout_id, exercise_id) values (2,1);
 insert into workout_exercise_set(workout_exercise_id, weight, reps) values (4, 30, 10);
 insert into workout_exercise_set(workout_exercise_id, weight, reps) values (4, 25, 9);
 insert into workout_exercise_set(workout_exercise_id, weight, reps) values (4, 15, 8);
 
 
 # --- !Downs
+  
+SET REFERENTIAL_INTEGRITY FALSE;
 
 delete from user;
+delete from body_part;
 delete from exercise;
-delete from exercise_type;
+delete from exercise_body_part;
+delete from workout;
+delete from workout_exercise;
+delete from workout_exercise_set;
+
+SET REFERENTIAL_INTEGRITY TRUE;

@@ -9,6 +9,7 @@ import com.jaroop.anorm.relational._
 
 import play.api.db.DBApi
 import play.api.libs.json._
+import play.api.libs.functional.syntax._
 
 import scala.concurrent.Future
 
@@ -52,6 +53,14 @@ object WorkoutExercise {
   }
 
   val relationalParser = RelationalParser(parser, WorkoutExerciseSet.parser)
+
+  implicit val wkeReads: Reads[WorkoutExercise] = (
+    (__ \ "id").readNullable[Long] and
+    (__ \ "workoutId").read[Long] and
+    (__ \ "exerciseId").read[Long]
+  )({ (id, workoutId, exerciseId) =>
+    WorkoutExercise(id, workoutId, exerciseId, None, None)
+  })
 }
 
 @Singleton

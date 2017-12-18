@@ -13,11 +13,13 @@ const updateField = (dataObj, fieldName) => e => {
   dataObj[fieldName] = e.target.value
 }
 
-const CREATE_USER_MODAL_ID = 'new-user-modal'
+const MODAL_ID = 'new-user-modal'
 
-const isOpen = () => Store.checkModal(CREATE_USER_MODAL_ID)
-const closeModal = () => Store.setModal(CREATE_USER_MODAL_ID, false)
-const openModal = () => Store.setModal(CREATE_USER_MODAL_ID, true)
+const { modalHelpers } = Store
+
+const isOpen = () => modalHelpers.isOpen(MODAL_ID)
+const closeModal = () => modalHelpers.close()
+const openModal = () => modalHelpers.open(MODAL_ID)
 const onSubmit = () => {
   closeModal()
   User.post(Store.getForm(FORM_ID))
@@ -30,15 +32,14 @@ const newUserForm = () => {
 
   return (
     <div>
-      New User
       {
         [
-          ['username', 'username'],
+          ['Username', 'username'],
           ['First Name', 'firstName'],
           ['Last Name', 'lastName'],
           ['Email', 'email']
         ].map(([label, field]) =>
-          <div>
+          <div className="form-field">
             <label>
               {label}
               <input oninput={updateField(data, field)} value={data[field] || ''} />
@@ -49,8 +50,6 @@ const newUserForm = () => {
     </div>
   )
 }
-
-window._Store = Store
 
 export default {
   oninit: User.fetchAll,

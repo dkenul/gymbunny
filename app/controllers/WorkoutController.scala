@@ -1,6 +1,7 @@
 package controllers
 
 import javax.inject.Inject
+import java.util.Date
 
 import models._
 import play.api.data.Forms._
@@ -37,4 +38,22 @@ extends MessagesAbstractController(cc) {
     }
   }
 
+  // implicit val workoutReads: Reads[Workout] = (
+  //   (__ \ "id").readNullable[Long] and
+  //   (__ \ "userId").read[Long] and
+  //   (__ \ "onDate").read[Date] and
+  //   (__ \ "description").read[String]
+  // )({ (id, userId, onDate, description) =>
+  //   Workout(None, userId, onDate, description, None)
+  // })
+
+  def post = Action.async { implicit request =>
+    request.body.asJson.map { json =>
+      json.validate[Workout].map { workout =>
+        workoutService.insert(workout).map { workout =>
+          Ok(workout.toJson)
+        }
+      } getOrElse Future { BadRequest(Because invalidPostJson "workout") }
+    } getOrElse Future { BadRequest(Because requestMalformed) }
+  }
 }

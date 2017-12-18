@@ -6,7 +6,9 @@ import UserWorkouts from './user-workouts'
 
 export default stateless(({
   user,
-  workouts
+  workouts,
+  modalHelpers,
+  formHelpers,
 }) => {
   if (!user) {
     return <div>Loading</div>
@@ -15,7 +17,12 @@ export default stateless(({
   return (
     <div className="user-detail">
       <UserHeader user={user} />
-      <UserWorkouts user={user} workouts={workouts} />
+      <UserWorkouts
+        user={user}
+        workouts={workouts}
+        modalHelpers={modalHelpers}
+        formHelpers={formHelpers}
+      />
     </div>
   )
 })

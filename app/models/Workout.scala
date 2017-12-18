@@ -9,6 +9,7 @@ import com.jaroop.anorm.relational._
 
 import play.api.db.DBApi
 import play.api.libs.json._
+import play.api.libs.functional.syntax._
 
 import scala.concurrent.Future
 
@@ -44,6 +45,14 @@ object Workout {
   }
 
   val relationalParser = RelationalParser(parser, WorkoutExercise.relationalParser)
+
+  implicit val workoutReads: Reads[Workout] = (
+    (__ \ "id").readNullable[Long] and
+    (__ \ "userId").read[Long] and
+    (__ \ "onDate").read[Date] and
+    (__ \ "description").read[String] and
+    (__ \ "workoutExercises").readNullable[List[WorkoutExercise]]
+  )(Workout.apply _)
 }
 
 @Singleton
@@ -88,5 +97,39 @@ class WorkoutService @Inject()(dbapi: DBApi)(implicit ec: DatabaseExecutionConte
       """
       .asRelational(Workout.relationalParser singleOpt)
     }
+  }(ec)
+
+  def insert(workout: Workout) = Future {
+    val (workoutId, workoutExercises) = db.withConnection { implicit c =>
+      val workoutId = SQL(
+        """
+          insert into workout (user_id, on_date, description)
+          values ({user_id}, {on_date}, {description})
+        """
+      ).on(
+        'user_id -> workout.userId,
+        'on_date -> workout.onDate,
+        'description -> workout.description,
+      ).executeInsert()
+
+      // allow optional creation of workoutExercises in the initial post
+      val maybeWkes = workout.workoutExercises.map { wkes =>
+        wkes.map { wke =>
+          wke.copy(
+            id = SQL"""
+              insert into workout_exercise (workout_id, exercise_id) values(${workoutId}, ${wke.exerciseId})
+            """.executeInsert(),
+            workoutId = workoutId.get
+          )
+        }
+      }
+
+      (workoutId, maybeWkes)
+    }
+
+    workout.copy(
+      id = workoutId,
+      workoutExercises = workoutExercises
+    )
   }(ec)
 }
