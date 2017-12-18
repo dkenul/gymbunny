@@ -37,7 +37,9 @@ GET /v1/users/:id/workouts          controllers.WorkoutController.getUserWorkout
 GET /v1/workouts/:id                controllers.WorkoutController.get(id:Long)
 
 + nocsrf
-POST /v1/workouts                      controllers.WorkoutController.post()
+POST /v1/workouts                   controllers.WorkoutController.post()
+
+GET /v1/exercises                   controllers.ExerciseController.getAll()
 
 
 # ----- PUBLIC -----

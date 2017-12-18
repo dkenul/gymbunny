@@ -48,6 +48,7 @@ const updateSet = (field, root = Store) => (id, state) => {
 
 Store.updateUser = extendProp('users')
 Store.updateWorkout = extendProp('workouts')
+Store.updateExercise = extendProp('exercises')
 
 Store.checkModal = checkSet('modals')
 Store.setModal = updateSet('modals')
@@ -79,6 +80,7 @@ Store.formHelpers = {
     }
 
     return {
+      id,
       get: getFormField(id),
       set: (path, value) => {
         set(forms[id], path, value)

@@ -101,25 +101,35 @@ class WorkoutService @Inject()(dbapi: DBApi)(implicit ec: DatabaseExecutionConte
 
   def insert(workout: Workout) = Future {
     val (workoutId, workoutExercises) = db.withConnection { implicit c =>
-      val workoutId = SQL(
-        """
-          insert into workout (user_id, on_date, description)
-          values ({user_id}, {on_date}, {description})
-        """
-      ).on(
-        'user_id -> workout.userId,
-        'on_date -> workout.onDate,
-        'description -> workout.description,
-      ).executeInsert()
+      val workoutId = SQL"""
+        insert into workout (user_id, on_date, description) values(${workout.userId}, ${workout.onDate}, ${workout.description})
+      """.executeInsert()
 
       // allow optional creation of workoutExercises in the initial post
       val maybeWkes = workout.workoutExercises.map { wkes =>
         wkes.map { wke =>
+          val wkeId = SQL"""
+            insert into workout_exercise (workout_id, exercise_id) values(${workoutId}, ${wke.exerciseId})
+          """.executeInsert()
+
+          // allow optional creation of sets in the initial post
+          val maybeSets = wke.workoutExerciseSets.map { sets =>
+            sets.map { set =>
+              val setId = SQL"""
+                insert into workout_exercise_set (workout_exercise_id, weight, reps) values(${wkeId}, ${set.weight}, ${set.reps})
+              """.executeInsert()
+
+              set.copy(
+                id = setId,
+                workoutExerciseId = wkeId.get
+              )
+            }
+          }
+
           wke.copy(
-            id = SQL"""
-              insert into workout_exercise (workout_id, exercise_id) values(${workoutId}, ${wke.exerciseId})
-            """.executeInsert(),
-            workoutId = workoutId.get
+            id = wkeId,
+            workoutId = workoutId.get,
+            workoutExerciseSets = maybeSets
           )
         }
       }

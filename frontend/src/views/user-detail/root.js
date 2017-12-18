@@ -7,6 +7,7 @@ import UserWorkouts from './user-workouts'
 export default stateless(({
   user,
   workouts,
+  exercises,
   modalHelpers,
   formHelpers,
 }) => {
@@ -20,6 +21,7 @@ export default stateless(({
       <UserWorkouts
         user={user}
         workouts={workouts}
+        exercises={exercises}
         modalHelpers={modalHelpers}
         formHelpers={formHelpers}
       />

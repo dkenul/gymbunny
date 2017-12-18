@@ -3,8 +3,7 @@
     ["env"]
   ],
   "plugins": [
-    ["transform-react-jsx", {
-      "pragma": "m"
-    }]
+    ["transform-react-jsx", {"pragma": "m"}],
+    ["transform-object-rest-spread"]
   ]
 }

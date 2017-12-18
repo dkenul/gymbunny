@@ -57,9 +57,10 @@ object WorkoutExercise {
   implicit val wkeReads: Reads[WorkoutExercise] = (
     (__ \ "id").readNullable[Long] and
     (__ \ "workoutId").read[Long] and
-    (__ \ "exerciseId").read[Long]
-  )({ (id, workoutId, exerciseId) =>
-    WorkoutExercise(id, workoutId, exerciseId, None, None)
+    (__ \ "exerciseId").read[Long] and
+    (__ \ "sets").readNullable[List[WorkoutExerciseSet]]
+  )({ (id, workoutId, exerciseId, sets) =>
+    WorkoutExercise(id, workoutId, exerciseId, None, sets)
   })
 }
 

@@ -1,57 +1,14 @@
 import m from 'mithril'
 import Workout from 'models/workout'
 import { stateless } from 'helpers/view'
+import workoutForm from 'views/functional/workout-form'
 import Modal from 'views/modal'
 import UserWorkout from './user-workout'
 
 const MODAL_ID = 'new-workout-modal'
 const FORM_ID = 'new-workout-form'
 
-const newWorkoutForm = (user, {get, set}) => {
-  return (
-    <div>
-      {
-        [
-          ['Date', 'onDate', 'date'],
-          ['Description', 'description', 'text'],
-        ].map(([label, field, type]) =>
-          <div className="form-field">
-            <label>
-              {label}
-              <input
-                type={type}
-                oninput={e => set(field, e.target.value)}
-                value={get(field) || ''}
-              />
-            </label>
-          </div>
-        )
-      }
-      <h2>Exercises</h2>
-      <span className="btn" onclick={() => {
-        const idx = get('workoutExercises.length', 0)
-
-        set(`workoutExercises[${idx}]`, {
-          workoutId: 0 // will be set by backend
-        })
-      }}>+</span>
-      <ul>
-        {get('workoutExercises', []).map((wke, i) =>
-          <div className="form-field">
-            <select value={wke.exerciseId} oninput={e => set(`workoutExercises[${i}].exerciseId`, +e.target.value)}>
-              <option></option>
-              {[1, 2].map(exerciseId =>
-                <option value={exerciseId}>{exerciseId}</option>
-              )}
-            </select>
-          </div>
-        )}
-      </ul>
-    </div>
-  )
-}
-
-export default stateless(({user, workouts, modalHelpers, formHelpers}) => {
+export default stateless(({user, workouts, exercises, modalHelpers, formHelpers}) => {
   const form = formHelpers.at(FORM_ID)
 
   return (
@@ -72,7 +29,7 @@ export default stateless(({user, workouts, modalHelpers, formHelpers}) => {
             .then(modalHelpers.close)
         }}
       >
-        {newWorkoutForm(user, form)}
+        {workoutForm(user, exercises, form)}
       </Modal>
     </div>
   )

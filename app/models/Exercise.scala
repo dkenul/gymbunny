@@ -8,6 +8,7 @@ import anorm._
 
 import play.api.db.DBApi
 import play.api.libs.json._
+import play.api.libs.functional.syntax._
 
 import scala.concurrent.Future
 
@@ -27,6 +28,11 @@ object Exercise {
     id <- get[Option[Long]]("exercise.id")
     name <- str("exercise.name")
   } yield Exercise(id,name)
+
+  implicit val reads: Reads[Exercise] = (
+    (__ \ "id").readNullable[Long] and
+    (__ \ "name").read[String]
+  )(Exercise.apply _)
 }
 
 @Singleton
@@ -45,6 +51,16 @@ class ExerciseService @Inject()(dbapi: DBApi)(implicit ec: DatabaseExecutionCont
       """
       .as(parser *)
       .headOption
+    }
+  }(ec)
+
+  def list: Future[List[Exercise]] = Future {
+    db.withConnection { implicit c =>
+      SQL"""
+        select *
+        from exercise
+      """
+      .as(parser *)
     }
   }(ec)
 }

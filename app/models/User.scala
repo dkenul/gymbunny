@@ -67,17 +67,11 @@ class UserService @Inject()(dbapi: DBApi)(implicit ec: DatabaseExecutionContext)
 
   def insert(user: User) = Future {
     val id = db.withConnection { implicit c =>
-      SQL(
-        """
+        SQL"""
           insert into user (username, first_name, last_name, email)
-          values ({username}, {first_name}, {last_name}, {email})
+          values (${user.username}, ${user.firstName}, ${user.lastName}, ${user.email})
         """
-      ).on(
-        'username -> user.username,
-        'first_name -> user.firstName,
-        'last_name -> user.lastName,
-        'email -> user.email
-      ).executeInsert()
+        .executeInsert()
     }
 
     user.copy(id = id)

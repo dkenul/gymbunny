@@ -1,24 +1,12 @@
 import m from 'mithril'
 import Store from 'store'
+import { basicRest } from 'helpers/api'
 const { updateUser, updateWorkout } = Store
 
 const BASE_URL = '/v1/users'
 
 const User = {
-  post: data =>
-    m.request({
-      method: 'POST',
-      url: BASE_URL,
-      data,
-    })
-    .then(updateUser),
-
-  fetch: id =>
-    m.request({
-      method: 'GET',
-      url: `${BASE_URL}/${id}`,
-    })
-    .then(updateUser),
+  ...basicRest(BASE_URL, updateUser),
 
   fetchWorkouts: id =>
     m.request({
@@ -26,13 +14,6 @@ const User = {
       url: `${BASE_URL}/${id}/workouts`
     })
     .then(r => r.forEach(updateWorkout)),
-
-  fetchAll: () =>
-    m.request({
-      method: 'GET',
-      url: BASE_URL,
-    })
-    .then(r => r.forEach(updateUser))
 }
 
 export default User
