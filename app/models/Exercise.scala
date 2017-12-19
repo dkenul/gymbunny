@@ -1,15 +1,11 @@
 package models
 
-import java.util.Date
 import javax.inject._
-
-import anorm.SqlParser._
 import anorm._
-
+import anorm.SqlParser._
 import play.api.db.DBApi
 import play.api.libs.json._
 import play.api.libs.functional.syntax._
-
 import scala.concurrent.Future
 
 case class Exercise (

@@ -26,17 +26,9 @@ extends MessagesAbstractController(cc) {
     }
   }
 
-  def postValidate: Reads[User] = (
-    (__ \ "id").readNullable[Long] and
-    (__ \ "username").read[String] and
-    (__ \ "firstName").read[String] and
-    (__ \ "lastName").read[String] and
-    (__ \ "email").read[String]
-  )(User.apply _)
-
   def post = Action.async { implicit request =>
     request.body.asJson.map { json =>
-      json.validate(postValidate).map { user =>
+      json.validate[User].map { user =>
         userService.insert(user).map { user =>
           Ok(user.toJson)
         }

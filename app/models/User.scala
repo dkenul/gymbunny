@@ -1,13 +1,11 @@
 package models
 
-import java.util.Date
 import javax.inject._
-
-import anorm.SqlParser._
 import anorm._
+import anorm.SqlParser._
 import play.api.db.DBApi
 import play.api.libs.json._
-
+import play.api.libs.functional.syntax._
 import scala.concurrent.Future
 
 case class User (
@@ -34,6 +32,14 @@ object User {
     lastName <- get[String]("user.last_name")
     email <- get[String]("user.email")
   } yield User(id,username,firstName,lastName,email)
+
+  implicit val reads: Reads[User] = (
+    (__ \ "id").readNullable[Long] and
+    (__ \ "username").read[String] and
+    (__ \ "firstName").read[String] and
+    (__ \ "lastName").read[String] and
+    (__ \ "email").read[String]
+  )(User.apply _)
 }
 
 @Singleton
