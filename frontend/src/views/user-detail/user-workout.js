@@ -4,9 +4,8 @@ import { toDateString } from 'helpers/localization'
 import icon from 'components/icon'
 
 export default stateless(({workout, deleteWorkout}) =>
-  <div>
-    <span>{workout.id} -- </span>
-    <a href={`/workouts/${workout.id}`} oncreate={m.route.link}>{toDateString(workout.onDate)}</a>
+  <div className="workout-item">
+    <a className="on-date" href={`/workouts/${workout.id}`} oncreate={m.route.link}>{toDateString(workout.onDate)}</a>
     {icon('close', {onclick: () => deleteWorkout(workout.id)})}
     <div>{workout.description}</div>
   </div>
