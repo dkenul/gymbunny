@@ -30,16 +30,20 @@ GET /v1/users                       controllers.UserController.getAll()
 + nocsrf
 POST /v1/users                      controllers.UserController.post()
 
-GET /v1/users/:id                   controllers.UserController.get(id:Long)
+GET /v1/users/:id                   controllers.UserController.get(id: Long)
 
-GET /v1/users/:id/workouts          controllers.WorkoutController.getUserWorkouts(id:Long)
+GET /v1/users/:id/workouts          controllers.WorkoutController.getUserWorkouts(id: Long)
 
-GET /v1/workouts/:id                controllers.WorkoutController.get(id:Long)
+GET /v1/workouts/:id                controllers.WorkoutController.get(id: Long)
 
 + nocsrf
 POST /v1/workouts                   controllers.WorkoutController.post()
++ nocsrf
+DELETE /v1/workouts/:id             controllers.WorkoutController.delete(id: Long)
 
 GET /v1/exercises                   controllers.ExerciseController.getAll()
+
+
 
 
 # ----- PUBLIC -----

@@ -10,6 +10,7 @@ export default stateless(({
   exercises,
   modalHelpers,
   formHelpers,
+  deleteWorkout,
 }) => {
   if (!user) {
     return <div>Loading</div>
@@ -24,6 +25,7 @@ export default stateless(({
         exercises={exercises}
         modalHelpers={modalHelpers}
         formHelpers={formHelpers}
+        deleteWorkout={deleteWorkout}
       />
     </div>
   )

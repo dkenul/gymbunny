@@ -30,11 +30,16 @@ const Store =  {
 }
 
 const extendProp = (field, root = Store) => data => {
-  root[field][data.id] = Object.assign(
-    {},
-    root[field][data.id],
-    data,
-  )
+  if (typeof data === 'number') {
+    delete root[field][data]
+  } else if (typeof data === 'object') {
+    root[field][data.id] = {
+      ...root[field][data.id],
+      ...data,
+    }
+  } else {
+    throw new Error('data is malformed')
+  }
 
   return data
 }

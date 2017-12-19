@@ -44,13 +44,14 @@ const workoutForm = (user, exercises, {get, set}) => {
                 </select>
               </label>
             </div>
+            <h2>Sets</h2>
             <span className="btn" onclick={() => {
               const idx = get(`workoutExercises[${i}].sets.length`, 0)
               
               set(`workoutExercises[${i}].sets[${idx}]`, {
                 workoutExerciseId: 0 // will be set by backend
               })
-            }}>Add Set</span>
+            }}>+</span>
             {get(`workoutExercises[${i}].sets`, []).map((wkeSet, j) =>
               <div className="indent-left-20">
                 {`Set ${j + 1}`}

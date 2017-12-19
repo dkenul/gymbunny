@@ -8,16 +8,16 @@ import UserWorkout from './user-workout'
 const MODAL_ID = 'new-workout-modal'
 const FORM_ID = 'new-workout-form'
 
-export default stateless(({user, workouts, exercises, modalHelpers, formHelpers}) => {
+export default stateless(({user, workouts, exercises, modalHelpers, formHelpers, deleteWorkout}) => {
   const form = formHelpers.at(FORM_ID)
 
   return (
     <div>
       <h2>Workouts</h2>
-      <span className="btn" onclick={() => modalHelpers.open(MODAL_ID)}>New Workout</span>
+      <span className="btn" onclick={() => modalHelpers.open(MODAL_ID)}>+</span>
       <ul>
         {workouts.map(workout =>
-          <UserWorkout key={workout.id} workout={workout} />
+          <UserWorkout key={workout.id} workout={workout} deleteWorkout={deleteWorkout} />
         )}
       </ul>
       <Modal

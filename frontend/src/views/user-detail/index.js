@@ -3,6 +3,7 @@ import m from 'mithril'
 import Store from 'store'
 import User from 'models/user'
 import Exercise from 'models/exercise'
+import Workout from 'models/workout'
 import { values } from 'helpers/functional'
 import Root from './root'
 
@@ -29,6 +30,7 @@ export default {
       exercises={values(Store.exercises)}
       modalHelpers={Store.modalHelpers}
       formHelpers={Store.formHelpers}
+      deleteWorkout={Workout.destroy}
     />
   },
 }

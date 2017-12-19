@@ -141,4 +141,10 @@ class WorkoutService @Inject()(dbapi: DBApi)(implicit ec: DatabaseExecutionConte
       workoutExercises = workoutExercises
     )
   }(ec)
+
+  def delete(id: Long) = Future {
+    db.withConnection { implicit connection =>
+      SQL"""delete from workout where id = $id""".executeUpdate()
+    }
+  }(ec)
 }

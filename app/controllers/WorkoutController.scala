@@ -46,4 +46,8 @@ extends MessagesAbstractController(cc) {
       } getOrElse Future { BadRequest(Because invalidPostJson table) }
     } getOrElse Future { BadRequest(Because requestMalformed) }
   }
+
+  def delete (id: Long) = Action.async {
+    workoutService.delete(id).map(_ => Ok)
+  }
 }

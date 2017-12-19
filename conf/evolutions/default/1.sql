@@ -42,7 +42,7 @@ create table workout_exercise (
   id bigint primary key auto_increment,
   workout_id bigint not null,
   exercise_id bigint not null,
-  foreign key (workout_id) references workout (id),
+  foreign key (workout_id) references workout (id) on delete cascade,
   foreign key (exercise_id) references exercise (id)
 );
 
@@ -51,7 +51,7 @@ create table workout_exercise_set (
   workout_exercise_id bigint not null,
   weight decimal not null,
   reps int not null,
-  foreign key (workout_exercise_id) references workout_exercise (id)
+  foreign key (workout_exercise_id) references workout_exercise (id) on delete cascade
 );
 
 -- create table company (

@@ -25,4 +25,11 @@ export const basicRest = (url, handler) => ({
       data,
     })
     .then(handler),
+
+  destroy: id =>
+    m.request({
+      method: 'DELETE',
+      url: `${url}/${id}`,
+    })
+    .then(() => handler(id))
 })
