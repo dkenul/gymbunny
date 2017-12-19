@@ -89,11 +89,10 @@ class WorkoutService @Inject()(dbapi: DBApi)(implicit ec: DatabaseExecutionConte
       SQL"""
         select *
         from workout
-        join workout_exercise on workout.id = workout_exercise.workout_id
-        join exercise on workout_exercise.exercise_id = exercise.id
-        join workout_exercise_set on workout_exercise_set.workout_exercise_id = workout_exercise.id
+        left outer join workout_exercise on workout.id = workout_exercise.workout_id
+        left outer join exercise on workout_exercise.exercise_id = exercise.id
+        left outer join workout_exercise_set on workout_exercise_set.workout_exercise_id = workout_exercise.id
         where workout.id = $id
-        group by workout_exercise.id, workout_exercise_set.id
       """
       .asRelational(Workout.relationalParser singleOpt)
     }

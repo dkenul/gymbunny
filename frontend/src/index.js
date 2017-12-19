@@ -4,6 +4,7 @@ import { stateless } from 'helpers/view'
 import Header from 'views/header'
 import UserList from 'views/user-list'
 import UserDetail from 'views/user-detail'
+import WorkoutDetail from 'views/workout-detail'
 
 import 'less/app.less'
 
@@ -30,6 +31,7 @@ const RouteWrapper = (View, route) => ({
 const routeMap = [
   ['/',                    UserList],
   ['/users/:id',         UserDetail],
+  ['/workouts/:id',   WorkoutDetail],
 ]
 
 m.route(document.body, "/", routeMap.reduce((routes, [route, view]) => {

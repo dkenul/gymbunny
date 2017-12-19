@@ -1,7 +1,7 @@
 import m from 'mithril'
 import Workout from 'models/workout'
 import { stateless } from 'helpers/view'
-import workoutForm from 'views/functional/workout-form'
+import workoutForm from 'components/workout-form'
 import Modal from 'views/modal'
 import UserWorkout from './user-workout'
 

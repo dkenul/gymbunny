@@ -35,6 +35,8 @@ const extendProp = (field, root = Store) => data => {
     root[field][data.id],
     data,
   )
+
+  return data
 }
 
 const checkSet = (field, root = Store) => id => {

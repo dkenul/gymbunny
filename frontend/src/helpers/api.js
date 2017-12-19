@@ -13,7 +13,10 @@ export const basicRest = (url, handler) => ({
       method: 'GET',
       url,
     })
-    .then(r => r.forEach(handler)),
+    .then(r => {
+      r.forEach(handler)
+      return r
+    }),
   
   post: data =>
     m.request({
