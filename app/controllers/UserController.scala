@@ -1,32 +1,16 @@
 package controllers
 
-import javax.inject.Inject
-
 import models._
-import play.api.data.Forms._
-import play.api.data._
-import play.api.i18n._
+import javax.inject.Inject
 import play.api.mvc._
-import views._
-
 import play.api.libs.json._
 import play.api.libs.functional.syntax._
-
-
 import scala.concurrent.{ExecutionContext, Future}
 
 class UserController @Inject()(userService: UserService, cc: MessagesControllerComponents)(implicit ec: ExecutionContext)
 extends MessagesAbstractController(cc) {
 
-  val postForm = Form(
-    mapping(
-      "id" -> ignored(None: Option[Long]),
-      "username" -> text,
-      "firstName" -> text,
-      "lastName" -> text,
-      "email" -> text
-    )(User.apply)(User.unapply)
-  )
+  val table = "user"
 
   def getAll = Action.async { implicit request =>
     userService.list.map { users =>
@@ -38,7 +22,7 @@ extends MessagesAbstractController(cc) {
     userService.read(id).map { maybeUser =>
       maybeUser.map { user =>
         Ok(user.toJson)
-      } getOrElse BadRequest(Because doesNotExist "user")
+      } getOrElse BadRequest(Because doesNotExist table)
     }
   }
 
@@ -56,7 +40,7 @@ extends MessagesAbstractController(cc) {
         userService.insert(user).map { user =>
           Ok(user.toJson)
         }
-      } getOrElse Future { BadRequest(Because invalidPostJson "user") }
+      } getOrElse Future { BadRequest(Because invalidPostJson table) }
     } getOrElse Future { BadRequest(Because requestMalformed) }
   }
 }

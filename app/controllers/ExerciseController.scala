@@ -1,18 +1,10 @@
 package controllers
 
-import javax.inject.Inject
-
 import models._
-import play.api.data._
-import play.api.i18n._
+import javax.inject.Inject
 import play.api.mvc._
-
-import anorm.SqlParser._
-import anorm._
-
 import play.api.libs.json._
 import play.api.libs.functional.syntax._
-
 import scala.concurrent.{ExecutionContext, Future}
 
 class ExerciseController @Inject()(
