@@ -1,4 +1,4 @@
-# --- Sample dataset
+# --- Seed Data
 
 # --- !Ups
 
@@ -38,9 +38,8 @@ insert into workout_exercise_set(workout_exercise_id, weight, reps) values (4, 3
 insert into workout_exercise_set(workout_exercise_id, weight, reps) values (4, 25, 9);
 insert into workout_exercise_set(workout_exercise_id, weight, reps) values (4, 15, 8);
 
-
 # --- !Downs
-  
+
 SET REFERENTIAL_INTEGRITY FALSE;
 
 delete from user;
