@@ -32,3 +32,19 @@ sbt console
 h2-browser
 sbt ~run
 ```
+
+### TODOs
+
+Intended Features:
+* Progress tracking / graphing
+* more data!
+* user auth
+
+Improvements:
+* UI / visual improvement - current is bare bones
+* Better (perhaps non DIY) state mgmt on the front end
+* Abstract common scala service and controller behavior - lots of repetition there
+
+### Thoughts on Mithril
+
+TBD
