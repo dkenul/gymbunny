@@ -2,8 +2,8 @@
 
 # --- !Ups
 
-insert into user (username,email,first_name,last_name) values ('damon','damon@example.com','Damon', 'Kenul');
-insert into user (username,email,first_name,last_name) values ('peter','peter@example.com','Peter', 'Bucci');
+insert into user (username,email,first_name,last_name) values ('damon','damon@example.com','Damon', 'K');
+insert into user (username,email,first_name,last_name) values ('peter','peter@example.com','Peter', 'B');
 insert into user (username,email,first_name,last_name) values ('jim','jim@example.com','Jim', 'Jim');
 
 insert into body_part (name) values ('chest');
