@@ -1,7 +1,7 @@
 # GymBunny - Workout Tracker
 
 This project is mostly an excuse to play around with Scala and try a frontend framework (Mithril) for the first time.
-Bonus points if it actually ends up being useful :joy:
+Bonus points if it actually ends up being useful :joy: :joy:
 
 
 ### Requirements:
