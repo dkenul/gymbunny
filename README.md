@@ -28,9 +28,9 @@ sbt ~run
 
 with access to H2
 ```
-sbt console
+sbt shell
 h2-browser
-sbt ~run
+~run
 ```
 
 ### TODOs
