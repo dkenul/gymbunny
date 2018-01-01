@@ -12,6 +12,8 @@ export default {
   view: vnode => {
     return <Root
       exercises={values(Store.exercises)}
+      modalHelpers={Store.modalHelpers}
+      formHelpers={Store.formHelpers}
     />
   },
 }
