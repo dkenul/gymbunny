@@ -59,4 +59,16 @@ class ExerciseService @Inject()(dbapi: DBApi)(implicit ec: DatabaseExecutionCont
       .as(parser *)
     }
   }(ec)
+
+  def insert(exercise: Exercise) = Future {
+    val id = db.withConnection { implicit c =>
+        SQL"""
+          insert into exercise (name)
+          values (${exercise.name})
+        """
+        .executeInsert()
+    }
+
+    exercise.copy(id = id)
+  }(ec)
 }

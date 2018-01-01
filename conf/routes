@@ -19,7 +19,8 @@ POST /v1/workouts                   controllers.WorkoutController.post()
 DELETE /v1/workouts/:id             controllers.WorkoutController.delete(id: Long)
 
 GET /v1/exercises                   controllers.ExerciseController.getAll()
-
++ nocsrf
+POST /v1/exercises                  controllers.ExerciseController.post()
 
 # ----- PUBLIC -----
 
