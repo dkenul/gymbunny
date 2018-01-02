@@ -13,9 +13,21 @@ class ExerciseController @Inject()(
 )(implicit ec: ExecutionContext)
 extends MessagesAbstractController(cc) {
 
+  val table = "exercise"
+
   def getAll = Action.async { implicit request =>
     exerciseService.list.map { exercises =>
-      Ok(Json.toJson(exercises.map(_.toJson)))
+      Ok(Json.toJson(exercises))
     }
+  }
+
+  def post = Action.async { implicit request =>
+    request.body.asJson.map { json =>
+      json.validate[Exercise].map { exercise =>
+        exerciseService.insert(exercise).map { exercise =>
+          Ok(Json.toJson(exercise))
+        }
+      } getOrElse Future { BadRequest(Because invalidPostJson table) }
+    } getOrElse Future { BadRequest(Because requestMalformed) }
   }
 }

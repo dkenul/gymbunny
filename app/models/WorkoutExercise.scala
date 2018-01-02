@@ -15,18 +15,7 @@ case class WorkoutExercise (
   exerciseId: Long,
   exercise: Option[Exercise],
   workoutExerciseSets: Option[List[WorkoutExerciseSet]]
-) {
-
-  def toJson:JsObject = Json.obj(
-    "id" -> id,
-    "workoutId" -> workoutId,
-    "exerciseId" -> exerciseId,
-    "exercise" -> exercise.map(_.toJson),
-    "sets" -> workoutExerciseSets.map { sets =>
-      Json.toJson(sets.map(_.toJson))
-    }
-  )
-}
+)
 
 object WorkoutExercise {
   // val parser = for {
@@ -50,7 +39,7 @@ object WorkoutExercise {
 
   val relationalParser = RelationalParser(parser, WorkoutExerciseSet.parser)
 
-  implicit val wkeReads: Reads[WorkoutExercise] = (
+  implicit val reads: Reads[WorkoutExercise] = (
     (__ \ "id").readNullable[Long] and
     (__ \ "workoutId").read[Long] and
     (__ \ "exerciseId").read[Long] and
@@ -58,6 +47,14 @@ object WorkoutExercise {
   )({ (id, workoutId, exerciseId, sets) =>
     WorkoutExercise(id, workoutId, exerciseId, None, sets)
   })
+
+  implicit val writes: Writes[WorkoutExercise] = (
+    (__ \ "id").writeNullable[Long] and
+    (__ \ "workoutId").write[Long] and
+    (__ \ "exerciseId").write[Long] and
+    (__ \ "exercise").writeNullable[Exercise] and
+    (__ \ "sets").writeNullable[List[WorkoutExerciseSet]]
+  )(unlift(WorkoutExercise.unapply))
 }
 
 @Singleton

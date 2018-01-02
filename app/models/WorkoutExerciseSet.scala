@@ -14,15 +14,7 @@ case class WorkoutExerciseSet (
   workoutExerciseId: Long,
   weight: Double,
   reps: Int,
-) {
-
-  def toJson: JsValue = Json.obj(
-    "id" -> id,
-    "workoutExerciseId" -> workoutExerciseId,
-    "weight" -> weight,
-    "reps" -> reps
-  )
-}
+)
 
 object WorkoutExerciseSet {
 
@@ -41,4 +33,11 @@ object WorkoutExerciseSet {
     (__ \ "weight").read[Double] and
     (__ \ "reps").read[Int]
   )(WorkoutExerciseSet.apply _)
+
+  implicit val writes: Writes[WorkoutExerciseSet] = (
+    (__ \ "id").writeNullable[Long] and
+    (__ \ "workoutExerciseId").write[Long] and
+    (__ \ "weight").write[Double] and
+    (__ \ "reps").write[Int]
+  )(unlift(WorkoutExerciseSet.unapply))
 }

@@ -18,14 +18,14 @@ extends MessagesAbstractController(cc) {
   def get (id: Long) = Action.async { implicit request =>
     workoutService.readDetail(id).map { workoutOpt =>
       workoutOpt.map { workout =>
-        Ok(workout.toJson)
+        Ok(Json.toJson(workout))
       } getOrElse BadRequest(Because doesNotExist table)
     }
   }
 
   def getUserWorkouts (userId: Long) = Action.async { implicit request =>
     workoutService.list(userId).map { workouts =>
-      Ok(Json.toJson(workouts.map(_.toJson)))
+      Ok(Json.toJson(workouts))
     }
   }
 
@@ -33,7 +33,7 @@ extends MessagesAbstractController(cc) {
     request.body.asJson.map { json =>
       json.validate[Workout].map { workout =>
         workoutService.insert(workout).map { workout =>
-          Ok(workout.toJson)
+          Ok(Json.toJson(workout))
         }
       } getOrElse Future { BadRequest(Because invalidPostJson table) }
     } getOrElse Future { BadRequest(Because requestMalformed) }

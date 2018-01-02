@@ -3,6 +3,7 @@ import Store from 'store'
 import { stateless } from 'helpers/view'
 import Header from 'views/header'
 import UserList from 'views/user-list'
+import ExerciseList from 'views/exercise-list'
 import UserDetail from 'views/user-detail'
 import WorkoutDetail from 'views/workout-detail'
 
@@ -30,6 +31,7 @@ const RouteWrapper = (View, route) => ({
 
 const routeMap = [
   ['/',                    UserList],
+  ['/exercises',       ExerciseList],
   ['/users/:id',         UserDetail],
   ['/workouts/:id',   WorkoutDetail],
 ]

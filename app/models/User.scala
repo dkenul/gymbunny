@@ -14,15 +14,7 @@ case class User (
   firstName: String,
   lastName: String,
   email: String
-) {
-  def toJson:JsObject = Json.obj(
-    "id" -> id,
-    "username" -> username,
-    "firstName" -> firstName,
-    "lastName" -> lastName,
-    "email" -> email
-  )
-}
+)
 
 object User {
   val parser = for {
@@ -40,6 +32,14 @@ object User {
     (__ \ "lastName").read[String] and
     (__ \ "email").read[String]
   )(User.apply _)
+
+  implicit val writes: Writes[User] = (
+    (__ \ "id").writeNullable[Long] and
+    (__ \ "username").write[String] and
+    (__ \ "firstName").write[String] and
+    (__ \ "lastName").write[String] and
+    (__ \ "email").write[String]
+  )(unlift(User.unapply))
 }
 
 @Singleton
