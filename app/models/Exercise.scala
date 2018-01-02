@@ -11,13 +11,7 @@ import scala.concurrent.Future
 case class Exercise (
   id: Option[Long],
   name: String
-) {
-
-  def toJson: JsObject = Json.obj(
-    "id" -> id,
-    "name" -> name
-  )
-}
+)
 
 object Exercise {
   val parser = for {
@@ -29,6 +23,11 @@ object Exercise {
     (__ \ "id").readNullable[Long] and
     (__ \ "name").read[String]
   )(Exercise.apply _)
+
+  implicit val writes: Writes[Exercise] = (
+    (__ \ "id").writeNullable[Long] and
+    (__ \ "name").write[String]
+  )(unlift(Exercise.unapply))
 }
 
 @Singleton

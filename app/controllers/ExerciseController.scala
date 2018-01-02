@@ -17,7 +17,7 @@ extends MessagesAbstractController(cc) {
 
   def getAll = Action.async { implicit request =>
     exerciseService.list.map { exercises =>
-      Ok(Json.toJson(exercises.map(_.toJson)))
+      Ok(Json.toJson(exercises))
     }
   }
 
@@ -25,7 +25,7 @@ extends MessagesAbstractController(cc) {
     request.body.asJson.map { json =>
       json.validate[Exercise].map { exercise =>
         exerciseService.insert(exercise).map { exercise =>
-          Ok(exercise.toJson)
+          Ok(Json.toJson(exercise))
         }
       } getOrElse Future { BadRequest(Because invalidPostJson table) }
     } getOrElse Future { BadRequest(Because requestMalformed) }

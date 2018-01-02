@@ -14,14 +14,14 @@ extends MessagesAbstractController(cc) {
 
   def getAll = Action.async { implicit request =>
     userService.list.map { users =>
-      Ok(Json.toJson(users.map(_.toJson)))
+      Ok(Json.toJson(users))
     }
   }
 
   def get (id: Long) = Action.async { implicit request =>
     userService.read(id).map { maybeUser =>
       maybeUser.map { user =>
-        Ok(user.toJson)
+        Ok(Json.toJson(user))
       } getOrElse BadRequest(Because doesNotExist table)
     }
   }
@@ -30,7 +30,7 @@ extends MessagesAbstractController(cc) {
     request.body.asJson.map { json =>
       json.validate[User].map { user =>
         userService.insert(user).map { user =>
-          Ok(user.toJson)
+          Ok(Json.toJson(user))
         }
       } getOrElse Future { BadRequest(Because invalidPostJson table) }
     } getOrElse Future { BadRequest(Because requestMalformed) }
